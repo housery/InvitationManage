@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ReplyDetailMapper">
+
+    <select id="getReplyDetailList" resultType="ReplyDetail">
+        select * from reply_detail
+            where invid = #{invid}
+        order by createdate desc limit #{pageFirst}, #{pageSize}
+    </select>
+
+    <select id="getCount" resultType="Integer">
+        SELECT count(1) from reply_detail
+        where invid = #{id}
+    </select>
+
+    <!--添加回复-->
+    <insert id="addReply" parameterType="ReplyDetail">
+        insert into reply_detail(invid, content, createdate)
+        values (#{replyDetail.invid}, #{replyDetail.content}, #{replyDetail.createdate});
+        <if test="replyDetail.author != null and replyDetail.author != ''">
+            insert into reply_detail(author)
+            value (#{replyDetail.author})
+        </if>
+    </insert>
+</mapper>

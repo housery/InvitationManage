@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao">
+
+    <select id="getInvitationList" resultType="Invitation">
+        select * from invitation
+        <where>
+            <if test="summary != '' and summary != null">
+                summary like concat('%',#{summary},'%')
+            </if>
+        </where>
+        order by createdate desc limit #{pageFirst}, #{pageSize}
+    </select>
+
+    <select id="getCount" resultType="Integer">
+        SELECT count(1) from invitation
+    </select>
+</mapper>
